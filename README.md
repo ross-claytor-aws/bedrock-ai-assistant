@@ -11,7 +11,8 @@
 - [Deployment Guide](#deployment-guide)
   - [Requirements](#requirements)
   - [Deploy](#deploy)
-  - [Configure redirects](#configure-redirects)
+  - [URL rewrites](#url-rewrites)
+- [Local development](#local-development)
 - [Security](#security)
 - [Contributing](#contributing)
 - [License](#license)
@@ -81,11 +82,15 @@ To deploy the project, click the button below:
 
 After deployment, configure URL rewriting in your Amplify app.
 
-### Configure redirects
+### URL rewrites
 
-Lambda functions with streaming responses require a function URL, such as `https://XXXXXX.lambda-url.REGION.on.aws/`. Using URL rewriting in Amplify hides this URL behind your app's domain, preventing CORS issues. Instead of directly calling the Lambda URL, your application will communicate via `https://XXXXXX.amplifyapp.com/chat/*`, with access tokens verified during Lambda execution. For additional security, consider using a WAF (Web Application Firewall), see [section below](#security).
+To use Lambda functions with streaming responses, you'll need a function URL, such as `https://XXXXXX.lambda-url.REGION.on.aws/`. By configuring URL rewriting in AWS Amplify, you can mask this URL behind your app's domain, which helps to avoid CORS issues. This means your application will interact with `https://XXXXXX.amplifyapp.com/chat/*` instead of directly accessing the Lambda URL. Access tokens will be verified during Lambda execution. For enhanced security, consider implementing a Web Application Firewall (WAF) as detailed in the [security section](#security).
 
-To configure, navigate to `Rewrites and redirects` under `Hosting` in the Amplify console. Click `Manage redirects` and then `Open text editor`. Add the following configuration:
+To configure URL rewrites:
+
+1. In the Amplify console, go to the `Hosting` section and select `Rewrites and redirects`.
+2. Click on `Manage redirects`, then choose `Open text editor`.
+3. Insert the following configuration:
 
 ```json
 [
@@ -107,7 +112,49 @@ To configure, navigate to `Rewrites and redirects` under `Hosting` in the Amplif
 ]
 ```
 
-Replace `target` with the respective function URLs. Click `Save` and test the app at `https://XXXXXX.amplifyapp.com`.
+Replace the `target` values with the specific function URLs, ensuring there are no trailing slashes.
+
+To obtain the necessary URLs:
+
+1. From the Amplify console, select the `main` branch to access the latest deployment.
+
+![Step 1: Get Lambda URL](docs/get-lambda-url-1.jpg)
+
+2. In the `Deployed backend resources` tab, search for `FunctionFunctionURL`.
+
+![Step 2: Search Function URL](docs/get-lambda-url-2.jpg)
+
+3. Click on `AWS::Lambda::Url` to open the function in the Lambda console.
+
+![Step 3: Copy Lambda URL](docs/get-lambda-url-3.jpg)
+
+4. Copy the Lambda function URL.
+
+## Local Development
+
+For local development, you'll use the Amplify [cloud sandbox](https://docs.amplify.aws/react/deploy-and-host/sandbox-environments/setup/), which offers an isolated environment with real-time updates to your cloud resources.
+
+To get started:
+
+1. Clone your repository and install the necessary dependencies:
+
+   ```bash
+   npm install
+   ```
+
+2. Launch the sandbox environment:
+
+   ```bash
+   npx ampx sandbox
+   ```
+
+3. Open a new terminal tab and start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+4. You can now access [http://localhost:5173](http://localhost:5173).
 
 ## Security
 
