@@ -76,15 +76,17 @@ Refer to [this guide](https://docs.aws.amazon.com/bedrock/latest/userguide/getti
 
 ### Deploy
 
-To deploy the project, click the button below:
+To deploy the project to your AWS account, simply click the button below:
 
 [![Deploy with Amplify](https://oneclick.amplifyapp.com/button.svg)](https://console.aws.amazon.com/amplify/home#/deploy?repo=https://github.com/MrHertal/bedrock-ai-assistant)
 
-After deployment, configure URL rewriting in your Amplify app.
+Follow the guided steps, it will fork this project to your GitHub account and connect it to a new Amplify application.
+
+Once the deployment is complete, configure URL rewrites in your application settings.
 
 ### URL rewrites
 
-To use Lambda functions with streaming responses, you'll need a function URL, such as `https://XXXXXX.lambda-url.REGION.on.aws/`. By configuring URL rewriting in AWS Amplify, you can mask this URL behind your app's domain, which helps to avoid CORS issues. This means your application will interact with `https://XXXXXX.amplifyapp.com/chat/*` instead of directly accessing the Lambda URL. Access tokens will be verified during Lambda execution. For enhanced security, consider implementing a Web Application Firewall (WAF) as detailed in the [security section](#security).
+To use Lambda functions with streaming responses, you'll need a function URL, such as `https://XXXXXX.lambda-url.REGION.on.aws/`. By configuring URL rewrites in AWS Amplify, you can mask this URL behind your application's domain, which helps to avoid CORS issues. This means your application will interact with `https://XXXXXX.amplifyapp.com/chat/*` instead of directly accessing the Lambda URL. Access tokens will be verified during Lambda execution. For enhanced security, consider implementing a Web Application Firewall (WAF) as detailed in the [security section](#security).
 
 To configure URL rewrites:
 
@@ -130,13 +132,15 @@ To obtain the necessary URLs:
 
 4. Copy the Lambda function URL.
 
+You can now access your application and play with the AI assistant.
+
 ## Local Development
 
 For local development, you'll use the Amplify [cloud sandbox](https://docs.amplify.aws/react/deploy-and-host/sandbox-environments/setup/), which offers an isolated environment with real-time updates to your cloud resources.
 
-To get started:
+You'll need Node.js 20 for this:
 
-1. Clone your repository and install the necessary dependencies:
+1. Clone the repository and install dependencies:
 
    ```bash
    npm install
@@ -154,7 +158,7 @@ To get started:
    npm run dev
    ```
 
-4. You can now access [http://localhost:5173](http://localhost:5173).
+4. You can now access [http://localhost:5173](http://localhost:5173) and make changes.
 
 ## Security
 
